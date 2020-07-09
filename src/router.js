@@ -21,8 +21,7 @@ router.post('/login', (req, res, next) => {
     //auth ok
     const id = 1; //esse id viria do banco de dados
     var token = jwt.sign({ id }, process.env.SECRET, {
-      // expiresIn: 300 // expires in 5min
-      expiresIn: 10 // expires in 5min
+      expiresIn: 300 // expires in 5min
     });
     return res.cookie("x-access-token", token).json({ auth: true, token: token });
   }
