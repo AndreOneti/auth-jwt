@@ -19,6 +19,12 @@ const schema = new Schema({
     required: true,
     // select: false,
   },
+
+  D_E_L_E_T_: {
+    type: String,
+    select: false,
+    default: '',
+  },
 });
 
 const User = model('User', schema);
