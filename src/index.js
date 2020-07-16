@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 require("dotenv-safe").config();
 const cors = require('cors');
+require("./db");
 
 // Create server
 const app = express();

@@ -6,6 +6,7 @@
   "scripts": {
     "docker-build": "docker build -t AndreOneti/auth-jwt .",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "compose-down": "docker-compose down",
     "compose-up": "docker-compose up",
     "dev": "nodemon index.js",
     "start": "node index.js"
@@ -20,6 +21,7 @@
     "express": "^4.17.1",
     "helmet": "^3.23.3",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.24",
     "morgan": "^1.10.0"
   },
   "devDependencies": {

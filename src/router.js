@@ -1,18 +1,19 @@
 'use strict'
 
+const { User } = require('./models');
 const express = require('express');
 var jwt = require('jsonwebtoken');
 
 const router = express();
 
-router.get('/', (req, res, next) => {
-  res.json({ message: "Tudo ok por aqui!" });
+router.get('/', async (req, res, next) => {
+  let users = await User.find();
+  res.json({ message: "Tudo ok por aqui!", users });
 });
 
 router.get('/clientes', verifyJWT, (req, res, next) => {
-  console.log("Retornou todos clientes!");
   res.json([{ id: 1, nome: 'AndreOneti' }]);
-})
+});
 
 //authentication
 router.post('/login', (req, res, next) => {
