@@ -6,8 +6,12 @@ var jwt = require('jsonwebtoken');
 
 const router = express();
 
+const $where = function () {
+  return (this.D_E_L_E_T_ === "" && this.email !== "admin@admin.io")
+}
+
 router.get('/', async (req, res, next) => {
-  let users = await User.find();
+  let users = await User.find({ $where });
   res.json({ message: "Tudo ok por aqui!", users });
 });
 

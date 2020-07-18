@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { User } = require('./models');
 require("dotenv-safe").config();
+const md5 = require('md5');
 
 const {
   DB_HOST,
@@ -27,7 +28,7 @@ mongoose.connection.once('open', async () => {
     await User.create({
       name: "admin",
       email: "admin@admin.io",
-      password: "21232f297a57a5a743894a0e4a801fc3"
+      password: md5("123456")
     })
   } else {
     await User.updateOne(
@@ -37,7 +38,7 @@ mongoose.connection.once('open', async () => {
       {
         name: "admin",
         email: "admin@admin.io",
-        password: "21232f297a57a5a743894a0e4a801fc3"
+        password: md5("123456")
       }
     );
   }
