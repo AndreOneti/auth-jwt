@@ -22,14 +22,23 @@ router.get('/clientes', verifyJWT, (req, res, next) => {
 //authentication
 router.post('/login', (req, res, next) => {
   //esse teste abaixo deve ser feito no seu banco de dados
-  if (req.body.user === 'AndreOneti' && req.body.pwd === '123') {
+  const { username, password } = req.body;
+  const { authorization = '' } = req.headers;
+
+  if (username === 'AndreOneti' && password === '123' && authorization === 'Basic QW5kcmVPbmV0aToxMjM=') {
+
+    const expires_in = 300;
+
     //auth ok
     const id = 1; //esse id viria do banco de dados
-    var token = jwt.sign({ id }, process.env.SECRET, {
-      expiresIn: 300 // expires in 5min
+
+    var access_token = jwt.sign({ id }, process.env.SECRET, {
+      expiresIn: expires_in // expires in 5min
     });
-    return res.cookie("x-access-token", token).json({ auth: true, token: token });
+
+    return res.json({ access_token, expires_in });
   }
+
   res.status(400).json({ message: 'Login inválido!' });
 });
 
@@ -38,13 +47,19 @@ router.post('/logout', function (req, res) {
 });
 
 function verifyJWT(req, res, next) {
-  var token = req.headers['x-access-token'] || req.cookies['x-access-token'];
+  const { authorization } = req.headers;
+  const token = authorization.split(' ')[1] || '';
+
   if (!token) return res.status(401).json({ auth: false, message: 'No token provided.' });
+
   jwt.verify(token, process.env.SECRET, function (err, decoded) {
+
     if (err) return res.status(401).json({ auth: false, message: 'Failed to authenticate token.' });
+
     // se tudo estiver ok, salva no request para uso posterior
     req.userId = decoded.id;
     console.log(decoded);
+
     next();
   });
 }
